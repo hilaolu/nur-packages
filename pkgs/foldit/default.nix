@@ -2,9 +2,12 @@
 , autoPatchelfHook
 , makeWrapper
 , lib
+, libGL
 , libGLU
+, libglvnd
 , fetchurl
 , freeglut
+, mesa
 , xorg
 , ...
 }:
@@ -21,7 +24,10 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ autoPatchelfHook makeWrapper ];
 
   libraries = [
+   mesa
+   libGL
    libGLU
+   libglvnd
    freeglut 
    xorg.libX11
   ];
