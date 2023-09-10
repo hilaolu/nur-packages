@@ -1,6 +1,7 @@
 { stdenv
 , autoPatchelfHook
 , makeWrapper
+, makeDesktopItem
 , lib
 , libGL
 , libGLU
@@ -38,6 +39,16 @@ stdenv.mkDerivation rec {
     tar xf ${src}
   '';
 
+  desktopItem = makeDesktopItem {
+      name = "Foldit";
+      desktopName = "Foldit";
+      comment = "Protein Folding Game";
+      exec = "Foldit";
+      startupNotify = false;
+      startupWMClass = "Foldit";
+  };
+
+
   #preBuild = ''
     #addAutoPatchelfSearchPath $out/cmp-binary-*
   #'';
@@ -49,6 +60,9 @@ stdenv.mkDerivation rec {
     makeWrapper $out/Foldit $out/bin/Foldit \
       --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath libraries}" \
       --run "cd $out"
+    
+  mkdir -p "$out/share/applications"
+  ln -s "$desktopItem/share/applications/Foldit.desktop" "$out/share/applications/Foldit.desktop"
 
   '';
 
