@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
   version = "24";
 
   src = fetchurl {
-    url = "https://files.ipd.uw.edu/pub/foldit/Foldit-linux_x64.tar.gz";
+    url = "https://web.archive.org/web/20230910171613/https://files.ipd.uw.edu/pub/foldit/Foldit-linux_x64.tar.gz";
     sha256 = "30164ef90816fa6fed821ba2d0cb8a98e34b91f5cb0554bd822d04f2587d6054";
   };
 
