@@ -8,9 +8,10 @@
 , lib
 , libXxf86vm
 , libXtst
-, libX11
+, xorg
 , libGL
-, graalvm17-ce
+, glfw-wayland-minecraft
+, openjdk17 
 , ...
 }:
 
@@ -20,8 +21,9 @@ let
   libPath = lib.makeLibraryPath [
    libXxf86vm
    libXtst
-   libX11
    libGL
+   xorg.libX11
+   glfw-wayland-minecraft
    stdenv.cc.cc.lib
   ];
 
@@ -50,10 +52,11 @@ let
       --proc /proc
       --bind ${glibc}/lib /lib
       --bind ${glibc}/lib /lib64
+      --bind ${glfw-wayland-minecraft}/lib /lib
       --bind /usr/bin/env /usr/bin/env
       --setenv LD_LIBRARY_PATH "${libPath}:''${LD_LIBRARY_PATH}"
       "''${auto_mounts[@]}"
-      ${graalvm17-ce}/bin/java -jar HMCL.jar 
+      ${openjdk17}/bin/java -jar HMCL.jar 
     )
     exec "''${cmd[@]}"
   '';
