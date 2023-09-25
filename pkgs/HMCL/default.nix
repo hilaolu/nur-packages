@@ -12,6 +12,7 @@
 , libGL
 , glfw-wayland-minecraft
 , openjdk17 
+, vulkan-loader
 , ...
 }:
 
@@ -22,6 +23,7 @@ let
    libXxf86vm
    libXtst
    libGL
+   vulkan-loader
    xorg.libX11
    glfw-wayland-minecraft
    stdenv.cc.cc.lib
