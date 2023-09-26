@@ -17,6 +17,7 @@
   example-package = pkgs.callPackage ./pkgs/example-package { };
   foldit = pkgs.callPackage ./pkgs/foldit { };
   HMCL = pkgs.callPackage ./pkgs/HMCL { };
+  zulu = pkgs.callPackage ./pkgs/zulu { };
   # some-qt5-package = pkgs.libsForQt5.callPackage ./pkgs/some-qt5-package { };
   # ...
 }
