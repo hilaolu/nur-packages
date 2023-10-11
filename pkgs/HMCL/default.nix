@@ -11,7 +11,7 @@
 , xorg
 , libGL
 , glfw-wayland-minecraft
-, openjdk17 
+, openjdk21
 , vulkan-loader
 , ...
 }:
@@ -58,7 +58,7 @@ let
       --bind /usr/bin/env /usr/bin/env
       --setenv LD_LIBRARY_PATH "${libPath}:''${LD_LIBRARY_PATH}"
       "''${auto_mounts[@]}"
-      ${openjdk17}/bin/java -jar HMCL.jar 
+      ${openjdk21}/bin/java -jar HMCL.jar 
     )
     exec "''${cmd[@]}"
   '';
