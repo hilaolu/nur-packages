@@ -8,6 +8,20 @@
 
 { pkgs ? import <nixpkgs> { } }:
 
+let
+  python3Packages = pkgs.python3Packages.override {
+    overrides = self: super: {
+      alphagenome = self.callPackage ./pkgs/alphagenome { };
+      bioblend = self.callPackage ./pkgs/bioblend { };
+      buckaroo = self.callPackage ./pkgs/buckaroo { };
+      fancycompleter = self.callPackage ./pkgs/fancycompleter { };
+      pipe-operator = self.callPackage ./pkgs/pipe-operator { };
+      pyrepl = self.callPackage ./pkgs/pyrepl { };
+      redun = self.callPackage ./pkgs/redun { };
+      tuspy = self.callPackage ./pkgs/tuspy { };
+    };
+  };
+in
 {
   # The `lib`, `modules`, and `overlay` names are special
   lib = import ./lib { inherit pkgs; }; # functions
@@ -18,6 +32,13 @@
   foldit = pkgs.callPackage ./pkgs/foldit { };
   HMCL = pkgs.callPackage ./pkgs/HMCL { };
   zulu = pkgs.callPackage ./pkgs/zulu { };
-  # some-qt5-package = pkgs.libsForQt5.callPackage ./pkgs/some-qt5-package { };
-  # ...
+
+  alphagenome = python3Packages.alphagenome;
+  bioblend = python3Packages.bioblend;
+  buckaroo = python3Packages.buckaroo;
+  fancycompleter = python3Packages.fancycompleter;
+  pipe-operator = python3Packages.pipe-operator;
+  pyrepl = python3Packages.pyrepl;
+  redun = python3Packages.redun;
+  tuspy = python3Packages.tuspy;
 }
