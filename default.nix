@@ -14,10 +14,18 @@ let
       alphagenome = self.callPackage ./pkgs/alphagenome { };
       bioblend = self.callPackage ./pkgs/bioblend { };
       buckaroo = self.callPackage ./pkgs/buckaroo { };
+      datacache = self.callPackage ./pkgs/datacache { };
       fancycompleter = self.callPackage ./pkgs/fancycompleter { };
+      gtfparse = self.callPackage ./pkgs/gtfparse { };
+      gwaslab = self.callPackage ./pkgs/gwaslab { };
+      liftover = self.callPackage ./pkgs/liftover { };
+      memoized-property = self.callPackage ./pkgs/memoized-property { };
       pipe-operator = self.callPackage ./pkgs/pipe-operator { };
+      pyensembl = self.callPackage ./pkgs/pyensembl { };
       pyrepl = self.callPackage ./pkgs/pyrepl { };
       redun = self.callPackage ./pkgs/redun { };
+      scikit-allel = self.callPackage ./pkgs/scikit-allel { };
+      tinytimer = self.callPackage ./pkgs/tinytimer { };
       tuspy = self.callPackage ./pkgs/tuspy { };
     };
   };
@@ -36,9 +44,17 @@ in
   alphagenome = python3Packages.alphagenome;
   bioblend = python3Packages.bioblend;
   buckaroo = python3Packages.buckaroo;
+  datacache = python3Packages.datacache;
   fancycompleter = python3Packages.fancycompleter;
+  gtfparse = python3Packages.gtfparse;
+  gwaslab = python3Packages.gwaslab;
+  liftover = python3Packages.liftover;
+  memoized-property = python3Packages.memoized-property;
   pipe-operator = python3Packages.pipe-operator;
+  pyensembl = python3Packages.pyensembl;
   pyrepl = python3Packages.pyrepl;
   redun = python3Packages.redun;
+  scikit-allel = python3Packages.scikit-allel;
+  tinytimer = python3Packages.tinytimer;
   tuspy = python3Packages.tuspy;
 }
