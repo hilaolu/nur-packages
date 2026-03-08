@@ -29,6 +29,20 @@ let
       tuspy = self.callPackage ./pkgs/tuspy { };
     };
   };
+
+  rPackages = let
+    self = pkgs.rPackages // rec {
+      callPackage = pkgs.newScope self;
+      MRMix = callPackage ./pkgs/MRMix { };
+      MRPRESSO = callPackage ./pkgs/MRPRESSO { };
+      RadialMR = callPackage ./pkgs/RadialMR { };
+      twosamplemr = callPackage ./pkgs/twosamplemr { };
+    };
+  in pkgs.rPackages.override {
+    overrides = {
+      inherit (self) MRMix MRPRESSO RadialMR twosamplemr;
+    };
+  };
 in
 {
   # The `lib`, `modules`, and `overlay` names are special
@@ -57,4 +71,9 @@ in
   scikit-allel = python3Packages.scikit-allel;
   tinytimer = python3Packages.tinytimer;
   tuspy = python3Packages.tuspy;
+
+  twosamplemr = rPackages.twosamplemr;
+  MRMix = rPackages.MRMix;
+  MRPRESSO = rPackages.MRPRESSO;
+  RadialMR = rPackages.RadialMR;
 }
