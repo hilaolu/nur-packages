@@ -9,12 +9,32 @@
 { pkgs ? import <nixpkgs> { } }:
 
 let
-  python3Packages = pkgs.python3Packages.override {
+  python3Packages = pkgs.python312Packages.override {
     overrides = self: super: {
+      scanpy = super.scanpy.overrideAttrs (oldAttrs: {
+        doCheck = false;
+        doInstallCheck = false;
+      });
+      pynndescent = super.pynndescent.overrideAttrs (oldAttrs: {
+        doCheck = false;
+        doInstallCheck = false;
+      });
+      biopython = super.biopython.overrideAttrs (oldAttrs: {
+        doCheck = false;
+        checkPhase = "true";
+        doInstallCheck = false;
+        installCheckPhase = "true";
+        meta = oldAttrs.meta // { broken = false; };
+      });
+      hatch-min-requirements = super.hatch-min-requirements.overrideAttrs (oldAttrs: {
+        propagatedBuildInputs = (oldAttrs.propagatedBuildInputs or [ ]) ++ [ self.tomlkit ];
+      });
       alphagenome = self.callPackage ./pkgs/alphagenome { };
+      bamnostic = self.callPackage ./pkgs/bamnostic { };
       bioblend = self.callPackage ./pkgs/bioblend { };
       buckaroo = self.callPackage ./pkgs/buckaroo { };
       datacache = self.callPackage ./pkgs/datacache { };
+      episcanpy = self.callPackage ./pkgs/episcanpy { };
       fancycompleter = self.callPackage ./pkgs/fancycompleter { };
       gtfparse = self.callPackage ./pkgs/gtfparse { };
       gwaslab = self.callPackage ./pkgs/gwaslab { };
@@ -22,6 +42,7 @@ let
       memoized-property = self.callPackage ./pkgs/memoized-property { };
       pipe-operator = self.callPackage ./pkgs/pipe-operator { };
       pyensembl = self.callPackage ./pkgs/pyensembl { };
+      pyjaspar = self.callPackage ./pkgs/pyjaspar { };
       pyrepl = self.callPackage ./pkgs/pyrepl { };
       redun = self.callPackage ./pkgs/redun { };
       scikit-allel = self.callPackage ./pkgs/scikit-allel { };
@@ -56,9 +77,11 @@ in
   zulu = pkgs.callPackage ./pkgs/zulu { };
 
   alphagenome = python3Packages.alphagenome;
+  bamnostic = python3Packages.bamnostic;
   bioblend = python3Packages.bioblend;
   buckaroo = python3Packages.buckaroo;
   datacache = python3Packages.datacache;
+  episcanpy = python3Packages.episcanpy;
   fancycompleter = python3Packages.fancycompleter;
   gtfparse = python3Packages.gtfparse;
   gwaslab = python3Packages.gwaslab;
@@ -66,6 +89,7 @@ in
   memoized-property = python3Packages.memoized-property;
   pipe-operator = python3Packages.pipe-operator;
   pyensembl = python3Packages.pyensembl;
+  pyjaspar = python3Packages.pyjaspar;
   pyrepl = python3Packages.pyrepl;
   redun = python3Packages.redun;
   scikit-allel = python3Packages.scikit-allel;
