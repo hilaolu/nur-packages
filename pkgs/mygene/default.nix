@@ -9,6 +9,7 @@
 buildPythonPackage rec {
   pname = "mygene";
   version = "3.2.2";
+  pyproject = true;
 
   src = fetchPypi {
     inherit pname version;
