@@ -32,6 +32,7 @@ let
       alphagenome = self.callPackage ./pkgs/alphagenome { };
       bamnostic = self.callPackage ./pkgs/bamnostic { };
       bioblend = self.callPackage ./pkgs/bioblend { };
+      biothings_client = self.callPackage ./pkgs/biothings_client { };
       buckaroo = self.callPackage ./pkgs/buckaroo { };
       datacache = self.callPackage ./pkgs/datacache { };
       episcanpy = self.callPackage ./pkgs/episcanpy { };
@@ -41,6 +42,7 @@ let
       harmonypy = self.callPackage ./pkgs/harmonypy { };
       liftover = self.callPackage ./pkgs/liftover { };
       memoized-property = self.callPackage ./pkgs/memoized-property { };
+      mygene = self.callPackage ./pkgs/mygene { };
       pipe-operator = self.callPackage ./pkgs/pipe-operator { };
       pyensembl = self.callPackage ./pkgs/pyensembl { };
       pyjaspar = self.callPackage ./pkgs/pyjaspar { };
@@ -80,6 +82,7 @@ in
   alphagenome = python3Packages.alphagenome;
   bamnostic = python3Packages.bamnostic;
   bioblend = python3Packages.bioblend;
+  biothings_client = python3Packages.biothings_client;
   buckaroo = python3Packages.buckaroo;
   datacache = python3Packages.datacache;
   episcanpy = python3Packages.episcanpy;
@@ -89,6 +92,7 @@ in
   harmonypy = python3Packages.harmonypy;
   liftover = python3Packages.liftover;
   memoized-property = python3Packages.memoized-property;
+  mygene = python3Packages.mygene;
   pipe-operator = python3Packages.pipe-operator;
   pyensembl = python3Packages.pyensembl;
   pyjaspar = python3Packages.pyjaspar;
