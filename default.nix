@@ -38,6 +38,7 @@ let
       fancycompleter = self.callPackage ./pkgs/fancycompleter { };
       gtfparse = self.callPackage ./pkgs/gtfparse { };
       gwaslab = self.callPackage ./pkgs/gwaslab { };
+      harmonypy = self.callPackage ./pkgs/harmonypy { };
       liftover = self.callPackage ./pkgs/liftover { };
       memoized-property = self.callPackage ./pkgs/memoized-property { };
       pipe-operator = self.callPackage ./pkgs/pipe-operator { };
@@ -85,6 +86,7 @@ in
   fancycompleter = python3Packages.fancycompleter;
   gtfparse = python3Packages.gtfparse;
   gwaslab = python3Packages.gwaslab;
+  harmonypy = python3Packages.harmonypy;
   liftover = python3Packages.liftover;
   memoized-property = python3Packages.memoized-property;
   pipe-operator = python3Packages.pipe-operator;
