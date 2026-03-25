@@ -35,6 +35,8 @@ let
       biothings_client = self.callPackage ./pkgs/biothings_client { };
       buckaroo = self.callPackage ./pkgs/buckaroo { };
       datacache = self.callPackage ./pkgs/datacache { };
+      ddqc = self.callPackage ./pkgs/ddqc { };
+      demuxEM = self.callPackage ./pkgs/demuxEM { };
       episcanpy = self.callPackage ./pkgs/episcanpy { };
       fancycompleter = self.callPackage ./pkgs/fancycompleter { };
       gtfparse = self.callPackage ./pkgs/gtfparse { };
@@ -43,6 +45,8 @@ let
       liftover = self.callPackage ./pkgs/liftover { };
       memoized-property = self.callPackage ./pkgs/memoized-property { };
       mygene = self.callPackage ./pkgs/mygene { };
+      pegasusio = self.callPackage ./pkgs/pegasusio { };
+      pegasuspy = self.callPackage ./pkgs/pegasuspy { };
       pipe-operator = self.callPackage ./pkgs/pipe-operator { };
       pyensembl = self.callPackage ./pkgs/pyensembl { };
       pyjaspar = self.callPackage ./pkgs/pyjaspar { };
@@ -85,6 +89,8 @@ in
   biothings_client = python3Packages.biothings_client;
   buckaroo = python3Packages.buckaroo;
   datacache = python3Packages.datacache;
+  ddqc = python3Packages.ddqc;
+  demuxEM = python3Packages.demuxEM;
   episcanpy = python3Packages.episcanpy;
   fancycompleter = python3Packages.fancycompleter;
   gtfparse = python3Packages.gtfparse;
@@ -93,6 +99,8 @@ in
   liftover = python3Packages.liftover;
   memoized-property = python3Packages.memoized-property;
   mygene = python3Packages.mygene;
+  pegasusio = python3Packages.pegasusio;
+  pegasuspy = python3Packages.pegasuspy;
   pipe-operator = python3Packages.pipe-operator;
   pyensembl = python3Packages.pyensembl;
   pyjaspar = python3Packages.pyjaspar;
