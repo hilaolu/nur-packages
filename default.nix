@@ -53,6 +53,9 @@ let
       pyrepl = self.callPackage ./pkgs/pyrepl { };
       redun = self.callPackage ./pkgs/redun { };
       scikit-allel = self.callPackage ./pkgs/scikit-allel { };
+      session-info = self.callPackage ./pkgs/session-info { };
+      formulaic-contrasts = self.callPackage ./pkgs/formulaic-contrasts { };
+      pydeseq2 = self.callPackage ./pkgs/pydeseq2 { };
       tinytimer = self.callPackage ./pkgs/tinytimer { };
       tuspy = self.callPackage ./pkgs/tuspy { };
     };
@@ -107,6 +110,9 @@ in
   pyrepl = python3Packages.pyrepl;
   redun = python3Packages.redun;
   scikit-allel = python3Packages.scikit-allel;
+  session-info = python3Packages.session-info;
+  formulaic-contrasts = python3Packages.formulaic-contrasts;
+  pydeseq2 = python3Packages.pydeseq2;
   tinytimer = python3Packages.tinytimer;
   tuspy = python3Packages.tuspy;
 
