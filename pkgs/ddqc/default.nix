@@ -13,14 +13,14 @@
 
   buildPythonPackage rec {
   pname = "ddqc";
-  version = "1.0";
+  version = "unstable-2023-05-22";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "ayshwaryas";
     repo = "ddqc";
-    rev = "v${version}";
-    sha256 = "113z4pkxll6mb9bwgqxz1l11l0plv8sjrkgqf6pq3b7margvgh1b";
+    rev = "b09a71efe43688f38f35634d61acb2a48d0d1af8";
+    sha256 = "077jqhhz2kwqma4sbvnmwd5sig8w4lw4d800zyhkdbmlb019mvnk";
   };
 
   build-system = [
