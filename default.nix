@@ -106,6 +106,7 @@ in
   gwaslab = python3Packages.gwaslab;
   harmonypy = python3Packages.harmonypy;
   liftover = python3Packages.liftover;
+  louvain = python3Packages.louvain;
   memoized-property = python3Packages.memoized-property;
   mygene = python3Packages.mygene;
   pegasusio = python3Packages.pegasusio;
