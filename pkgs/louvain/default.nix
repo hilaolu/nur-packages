@@ -39,6 +39,7 @@ buildPythonPackage rec {
   ];
 
   dependencies = [
+    setuptools
     python-igraph
     texttable
   ];
