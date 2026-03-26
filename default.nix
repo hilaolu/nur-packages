@@ -58,6 +58,7 @@ let
       pydeseq2 = self.callPackage ./pkgs/pydeseq2 { };
       tinytimer = self.callPackage ./pkgs/tinytimer { };
       tuspy = self.callPackage ./pkgs/tuspy { };
+      numcodecs = self.callPackage ./pkgs/numcodecs { };
       zarr = self.callPackage ./pkgs/zarr { };
     };
   };
@@ -116,6 +117,7 @@ in
   pydeseq2 = python3Packages.pydeseq2;
   tinytimer = python3Packages.tinytimer;
   tuspy = python3Packages.tuspy;
+  numcodecs = python3Packages.numcodecs;
   zarr = python3Packages.zarr;
 
   twosamplemr = rPackages.twosamplemr;
