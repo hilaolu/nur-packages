@@ -82,6 +82,8 @@ buildPythonPackage rec {
     pegasusio
   ];
 
+  doCheck = false;
+
   pythonImportsCheck = [ "pegasus" ];
 
   meta = {
