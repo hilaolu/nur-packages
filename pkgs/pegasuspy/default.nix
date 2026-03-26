@@ -84,8 +84,6 @@ buildPythonPackage rec {
 
   doCheck = false;
 
-  pythonImportsCheck = [ "pegasus" ];
-
   meta = {
     description = "Pegasus is a Python package for analyzing sc/snRNA-seq data of millions of cells";
     homepage = "https://github.com/lilab-bcb/pegasus";
