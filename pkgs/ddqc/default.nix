@@ -35,7 +35,6 @@
     seaborn
   ];
 
-  pythonImportsCheck = [ "ddqc" ];
 
   meta = {
     description = "Data-Driven Quality Control for Single-Cell RNA-Seq Data";
