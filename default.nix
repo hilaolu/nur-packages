@@ -43,6 +43,10 @@ let
       gwaslab = self.callPackage ./pkgs/gwaslab { };
       harmonypy = self.callPackage ./pkgs/harmonypy { };
       liftover = self.callPackage ./pkgs/liftover { };
+      louvain = self.callPackage ./pkgs/louvain {
+        igraph = pkgs.igraph;
+        python-igraph = self.igraph;
+      };
       memoized-property = self.callPackage ./pkgs/memoized-property { };
       mygene = self.callPackage ./pkgs/mygene { };
       pegasusio = self.callPackage ./pkgs/pegasusio { };
