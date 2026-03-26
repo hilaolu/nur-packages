@@ -27,6 +27,7 @@
     setuptools
   ];
   dependencies = [
+    setuptools
     numpy
     matplotlib
     pandas
