@@ -9,6 +9,7 @@
   pegasusio,
   pegasuspy,
   seaborn,
+  setuptools-scm,
 }:
 
   buildPythonPackage rec {
@@ -27,7 +28,7 @@
     setuptools
   ];
   dependencies = [
-    setuptools
+    setuptools-scm
     numpy
     matplotlib
     pandas
