@@ -26,9 +26,9 @@
 
   build-system = [
     setuptools
+    setuptools-scm
   ];
   dependencies = [
-    setuptools-scm
     numpy
     matplotlib
     pandas
