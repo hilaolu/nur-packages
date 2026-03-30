@@ -42,6 +42,7 @@ let
       gtfparse = self.callPackage ./pkgs/gtfparse { };
       gwaslab = self.callPackage ./pkgs/gwaslab { };
       harmonypy = self.callPackage ./pkgs/harmonypy { };
+      hatch-docstring-description = self.callPackage ./pkgs/hatch-docstring-description { };
       liftover = self.callPackage ./pkgs/liftover { };
       louvain = self.callPackage ./pkgs/louvain {
         igraph = pkgs.igraph;
@@ -50,6 +51,7 @@ let
         setuptools-scm = self.setuptools-scm;
       };
       memoized-property = self.callPackage ./pkgs/memoized-property { };
+      mudata = self.callPackage ./pkgs/mudata { };
       mygene = self.callPackage ./pkgs/mygene { };
       pegasusio = self.callPackage ./pkgs/pegasusio { };
       pegasuspy = self.callPackage ./pkgs/pegasuspy { };
@@ -59,7 +61,10 @@ let
       pyrepl = self.callPackage ./pkgs/pyrepl { };
       redun = self.callPackage ./pkgs/redun { };
       scikit-allel = self.callPackage ./pkgs/scikit-allel { };
+      scverse-misc = self.callPackage ./pkgs/scverse-misc { };
+      scvi-tools = self.callPackage ./pkgs/scvi-tools { };
       session-info = self.callPackage ./pkgs/session-info { };
+      session-info2 = self.callPackage ./pkgs/session-info2 { };
       formulaic-contrasts = self.callPackage ./pkgs/formulaic-contrasts { };
       pydeseq2 = self.callPackage ./pkgs/pydeseq2 { };
       tinytimer = self.callPackage ./pkgs/tinytimer { };
@@ -107,9 +112,11 @@ in
   gtfparse = python3Packages.gtfparse;
   gwaslab = python3Packages.gwaslab;
   harmonypy = python3Packages.harmonypy;
+  hatch-docstring-description = python3Packages.hatch-docstring-description;
   liftover = python3Packages.liftover;
   louvain = python3Packages.louvain;
   memoized-property = python3Packages.memoized-property;
+  mudata = python3Packages.mudata;
   mygene = python3Packages.mygene;
   pegasusio = python3Packages.pegasusio;
   pegasuspy = python3Packages.pegasuspy;
@@ -119,7 +126,10 @@ in
   pyrepl = python3Packages.pyrepl;
   redun = python3Packages.redun;
   scikit-allel = python3Packages.scikit-allel;
+  scverse-misc = python3Packages.scverse-misc;
+  scvi-tools = python3Packages.scvi-tools;
   session-info = python3Packages.session-info;
+  session-info2 = python3Packages.session-info2;
   formulaic-contrasts = python3Packages.formulaic-contrasts;
   pydeseq2 = python3Packages.pydeseq2;
   tinytimer = python3Packages.tinytimer;
