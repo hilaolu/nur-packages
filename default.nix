@@ -46,6 +46,8 @@ let
       louvain = self.callPackage ./pkgs/louvain {
         igraph = pkgs.igraph;
         python-igraph = self.igraph;
+        ddt = self.ddt;
+        setuptools-scm = self.setuptools-scm;
       };
       memoized-property = self.callPackage ./pkgs/memoized-property { };
       mygene = self.callPackage ./pkgs/mygene { };
