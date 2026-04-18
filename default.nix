@@ -97,6 +97,7 @@ in
   example-package = pkgs.callPackage ./pkgs/example-package { };
   foldit = pkgs.callPackage ./pkgs/foldit { };
   HMCL = pkgs.callPackage ./pkgs/HMCL { };
+  motioncor3 = pkgs.callPackage ./pkgs/motioncor3 { };
   zulu = pkgs.callPackage ./pkgs/zulu { };
 
   alphagenome = python3Packages.alphagenome;
