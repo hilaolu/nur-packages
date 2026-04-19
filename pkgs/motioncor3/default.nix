@@ -2,6 +2,7 @@
 , fetchFromGitHub
 , cudaPackages
 , libtiff
+, autoAddDriverRunpath
 }:
 
 let
@@ -21,6 +22,8 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     cudaPackages.cuda_nvcc
     cudaPackages.setupCudaHook
+    autoAddDriverRunpath
+    cudaPackages.autoAddCudaCompatRunpath
   ];
 
   buildInputs = [
@@ -56,6 +59,9 @@ stdenv.mkDerivation rec {
     substituteInPlace LibSrc/Util/makefile \
       --replace-fail "CC = g++" "CC ?= g++" \
       --replace-fail "-std=c++11" "-std=c++17"
+      
+    # Patch makefile to not add -L to CUDALIB
+    sed -i 's/-L\$(CUDALIB)/\$(CUDALIB)/g' makefile11
   '';
 
   buildPhase = ''
@@ -78,26 +84,17 @@ stdenv.mkDerivation rec {
     # Handle -isystem
     CUDAINC="$CUDAINC $(echo $NIX_CFLAGS_COMPILE | sed 's/-isystem \([^ ]*\)/-I\1/g' | tr ' ' '\n' | grep '^-I' | tr '\n' ' ')"
 
-    # Extract library paths for linking, avoid -rpath as it confuses nvcc when prefixed with -L
+    # Extract library paths for linking
     export CUDALIB=""
     for flag in $NIX_LDFLAGS; do
       if [[ $flag == -L* ]]; then
         CUDALIB="$CUDALIB $flag"
       fi
     done
-    # Add CUDA stubs for libcuda.so
+    # Add CUDA stubs for libcuda.so during linking
     CUDALIB="$CUDALIB -L${cudaPackages.cuda_cudart}/lib/stubs"
 
     # Build main executable
-    # We pass CUDALIB directly, it will be used as -L$(CUDALIB) in makefile11
-    # Wait, the makefile has: -L$(CUDALIB). 
-    # If CUDALIB starts with -L, it becomes -L-L.
-    # Let's remove the leading -L from CUDALIB entries if we want to be super safe, 
-    # OR change the makefile to not add -L.
-    
-    # I'll patch the makefile to not add -L to CUDALIB
-    sed -i 's/-L\$(CUDALIB)/\$(CUDALIB)/g' makefile11
-
     make -f makefile11 exe \
       CC="$CXX" \
       NVCC="nvcc -ccbin $CC" \
@@ -112,6 +109,14 @@ stdenv.mkDerivation rec {
     runHook preInstall
     install -Dm755 MotionCor3 $out/bin/MotionCor3
     runHook postInstall
+  '';
+
+  postFixup = ''
+    # Remove the stub path from RUNPATH to avoid using it at runtime
+    # We use patchelf to filter the RUNPATH
+    old_rpath=$(patchelf --print-rpath $out/bin/MotionCor3)
+    new_rpath=$(echo "$old_rpath" | sed "s|:${cudaPackages.cuda_cudart}/lib/stubs||g; s|${cudaPackages.cuda_cudart}/lib/stubs:||g; s|${cudaPackages.cuda_cudart}/lib/stubs||g")
+    patchelf --set-rpath "$new_rpath" $out/bin/MotionCor3
   '';
 
   meta = with lib; {
