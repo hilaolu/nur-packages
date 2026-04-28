@@ -98,6 +98,7 @@ in
   foldit = pkgs.callPackage ./pkgs/foldit { };
   HMCL = pkgs.callPackage ./pkgs/HMCL { };
   motioncor3 = pkgs.callPackage ./pkgs/motioncor3 { };
+  office-cli = pkgs.callPackage ./pkgs/office-cli { };
   zulu = pkgs.callPackage ./pkgs/zulu { };
 
   alphagenome = python3Packages.alphagenome;
