@@ -99,6 +99,7 @@ in
   motioncor3 = pkgs.callPackage ./pkgs/motioncor3 { };
   office-cli = pkgs.callPackage ./pkgs/office-cli { };
   relion = pkgs.callPackage ./pkgs/relion { };
+  ucsf-chimerax = pkgs.callPackage ./pkgs/ucsf-chimerax { };
   zulu = pkgs.callPackage ./pkgs/zulu { };
 
   alphagenome = python3Packages.alphagenome;
