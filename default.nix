@@ -35,7 +35,6 @@ let
       biothings_client = self.callPackage ./pkgs/biothings_client { };
       buckaroo = self.callPackage ./pkgs/buckaroo { };
       datacache = self.callPackage ./pkgs/datacache { };
-      ddqc = self.callPackage ./pkgs/ddqc { };
       demuxEM = self.callPackage ./pkgs/demuxEM { };
       episcanpy = self.callPackage ./pkgs/episcanpy { };
       fancycompleter = self.callPackage ./pkgs/fancycompleter { };
@@ -99,6 +98,7 @@ in
   HMCL = pkgs.callPackage ./pkgs/HMCL { };
   motioncor3 = pkgs.callPackage ./pkgs/motioncor3 { };
   office-cli = pkgs.callPackage ./pkgs/office-cli { };
+  relion = pkgs.callPackage ./pkgs/relion { };
   zulu = pkgs.callPackage ./pkgs/zulu { };
 
   alphagenome = python3Packages.alphagenome;
@@ -107,7 +107,6 @@ in
   biothings_client = python3Packages.biothings_client;
   buckaroo = python3Packages.buckaroo;
   datacache = python3Packages.datacache;
-  ddqc = python3Packages.ddqc;
   demuxEM = python3Packages.demuxEM;
   episcanpy = python3Packages.episcanpy;
   fancycompleter = python3Packages.fancycompleter;
