@@ -102,7 +102,7 @@ cudaStdenv.mkDerivation rec {
                      "${openmpi}/bin/mpirun -n XXXmpinodesXXX"
 
     wrapProgram $out/bin/relion \
-      --prefix PATH : ${lib.makeBinPath [ ghostscript openmpi pbzip2 xz zstd ]} \
+      --prefix PATH : $out/bin:${lib.makeBinPath [ ghostscript openmpi pbzip2 xz zstd ]} \
       --set RELION_MPIRUN ${openmpi}/bin/mpirun \
       --set RELION_QSUB_TEMPLATE $out/bin/relion_qsub.csh
   '';
