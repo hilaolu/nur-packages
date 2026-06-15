@@ -1,0 +1,44 @@
+diff --git a/src/amyloid_finder_mpi.cpp b/src/amyloid_finder_mpi.cpp
+index 2d2a172..2093ba3 100644
+--- a/src/amyloid_finder_mpi.cpp
++++ b/src/amyloid_finder_mpi.cpp
+@@ -56,7 +56,16 @@ void AmyloidFinderMpi::deviceInitialise()
+ 	if (!std::isdigit(*gpu_ids.begin()))
+ 		device_id = node->rank%devCount;
+ 	else
+-		device_id = textToInteger((allThreadIDs[node->rank][0]).c_str());
++	{
++		if (allThreadIDs.size() == 0)
++			REPORT_ERROR("No GPU IDs parsed from --gpu.");
++
++		const std::vector<std::string> &rankThreadIDs = allThreadIDs[node->rank % allThreadIDs.size()];
++		if (rankThreadIDs.size() == 0 || rankThreadIDs[0] == "")
++			REPORT_ERROR("Empty GPU ID parsed from --gpu.");
++
++		device_id = textToInteger(rankThreadIDs[0].c_str());
++	}
+ 
+ 	for (int follower = 0; follower < node->size; follower++)
+ 	{
+diff --git a/src/autopicker_mpi.cpp b/src/autopicker_mpi.cpp
+index e1ba546..27f0572 100644
+--- a/src/autopicker_mpi.cpp
++++ b/src/autopicker_mpi.cpp
+@@ -57,7 +57,16 @@ void AutoPickerMpi::deviceInitialise()
+ 	if (!std::isdigit(*gpu_ids.begin()))
+ 		device_id = node->rank%devCount;
+ 	else
+-		device_id = textToInteger((allThreadIDs[node->rank][0]).c_str());
++	{
++		if (allThreadIDs.size() == 0)
++			REPORT_ERROR("No GPU IDs parsed from --gpu.");
++
++		const std::vector<std::string> &rankThreadIDs = allThreadIDs[node->rank % allThreadIDs.size()];
++		if (rankThreadIDs.size() == 0 || rankThreadIDs[0] == "")
++			REPORT_ERROR("Empty GPU ID parsed from --gpu.");
++
++		device_id = textToInteger(rankThreadIDs[0].c_str());
++	}
+ 
+ 	for (int follower = 0; follower < node->size; follower++)
+ 	{

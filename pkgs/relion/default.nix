@@ -84,6 +84,10 @@ cudaStdenv.mkDerivation rec {
     "-DPYTHON_EXE_PATH=${python3}/bin/python3"
   ];
 
+  patches = [
+    ./autopicker-mpi-gpu-rank-wrap.patch
+  ];
+
   postPatch = ''
     substituteInPlace src/time.cpp \
       --replace-fail "fprintf(stdout, cheese);" "fprintf(stdout, \"%s\", cheese);"
