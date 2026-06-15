@@ -97,8 +97,14 @@ cudaStdenv.mkDerivation rec {
   '';
 
   postInstall = ''
+    substituteInPlace $out/bin/relion_qsub.csh \
+      --replace-fail "mpiexec -mca orte_forward_job_control 1 -n XXXmpinodesXXX" \
+                     "${openmpi}/bin/mpirun -n XXXmpinodesXXX"
+
     wrapProgram $out/bin/relion \
-      --prefix PATH : ${lib.makeBinPath [ ghostscript openmpi pbzip2 xz zstd ]}
+      --prefix PATH : ${lib.makeBinPath [ ghostscript openmpi pbzip2 xz zstd ]} \
+      --set RELION_MPIRUN ${openmpi}/bin/mpirun \
+      --set RELION_QSUB_TEMPLATE $out/bin/relion_qsub.csh
   '';
 
   meta = with lib; {
