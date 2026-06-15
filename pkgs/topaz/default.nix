@@ -27,6 +27,12 @@ buildPythonPackage rec {
     hash = "sha256-YHpXf6XkwVGpNPlZSwzKbslfIGZpPU6u1CIqnOdQI9c=";
   };
 
+  postPatch = ''
+    substituteInPlace topaz/utils/data/sampler.py \
+      --replace-fail 'h = i*2**56 + j*2**32 + c' \
+                     'h = int(i)*2**56 + int(j)*2**32 + int(c)'
+  '';
+
   build-system = [
     setuptools
   ];
