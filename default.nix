@@ -67,6 +67,7 @@ let
       formulaic-contrasts = self.callPackage ./pkgs/formulaic-contrasts { };
       pydeseq2 = self.callPackage ./pkgs/pydeseq2 { };
       tinytimer = self.callPackage ./pkgs/tinytimer { };
+      topaz = self.callPackage ./pkgs/topaz { };
       tuspy = self.callPackage ./pkgs/tuspy { };
       numcodecs = self.callPackage ./pkgs/numcodecs { };
       zarr = self.callPackage ./pkgs/zarr { };
@@ -135,6 +136,7 @@ in
   formulaic-contrasts = python3Packages.formulaic-contrasts;
   pydeseq2 = python3Packages.pydeseq2;
   tinytimer = python3Packages.tinytimer;
+  topaz = python3Packages.topaz;
   tuspy = python3Packages.tuspy;
   numcodecs = python3Packages.numcodecs;
   zarr = python3Packages.zarr;
