@@ -32,13 +32,13 @@ let
 in
 cudaStdenv.mkDerivation rec {
   pname = "relion";
-  version = "5.1.0";
+  version = "ver5.1";
 
   src = fetchFromGitHub {
-    owner = "3dem";
+    owner = "hilaolu";
     repo = "relion";
     rev = version;
-    hash = "sha256-PxzuvMOIKoBjqgAFThbie/wZG0cvlEQEjUt6054zBuU=";
+    hash = "sha256-Bm0ZgXxv803kwUNXbMEXCjGrPlmkmXdvBydyt6VF2Gk=";
   };
 
   nativeBuildInputs = [
@@ -82,10 +82,6 @@ cudaStdenv.mkDerivation rec {
     "-DFORCE_OWN_FLTK=OFF"
     "-DGUI=ON"
     "-DPYTHON_EXE_PATH=${python3}/bin/python3"
-  ];
-
-  patches = [
-    ./autopicker-mpi-gpu-rank-wrap.patch
   ];
 
   postPatch = ''
