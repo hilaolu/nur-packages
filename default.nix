@@ -97,6 +97,7 @@ in
   example-package = pkgs.callPackage ./pkgs/example-package { };
   foldit = pkgs.callPackage ./pkgs/foldit { };
   HMCL = pkgs.callPackage ./pkgs/HMCL { };
+  cisTEM = pkgs.callPackage ./pkgs/cisTEM { };
   motioncor3 = pkgs.callPackage ./pkgs/motioncor3 { };
   office-cli = pkgs.callPackage ./pkgs/office-cli { };
   relion = pkgs.callPackage ./pkgs/relion { };
