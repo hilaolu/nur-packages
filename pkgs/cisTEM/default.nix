@@ -19,7 +19,7 @@ stdenv.mkDerivation rec {
     owner = "hilaolu";
     repo = "cisTEM";
     rev = "unbend";
-    hash = "sha256-a227Ohw1gzm98jiqkwjxyWCtMNbFV3L+3VMx+zPPUpk=";
+    hash = "sha256-rLeK78/EqXnEinleKDGAjsqNXjrcGKlF0FgKcZarKdM=";
   };
 
   nativeBuildInputs = [
