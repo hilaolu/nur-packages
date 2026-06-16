@@ -47,6 +47,8 @@ stdenv.mkDerivation rec {
 
   enableParallelBuilding = true;
 
+  CXXFLAGS = "-include cstdint";
+
   meta = {
     description = "Cryo-EM image processing suite for single-particle reconstructions";
     homepage = "https://github.com/timothygrant80/cisTEM";
