@@ -16,10 +16,10 @@ stdenv.mkDerivation rec {
   version = "2.0.0-alpha-unstable-2026-06-16";
 
   src = fetchFromGitHub {
-    owner = "timothygrant80";
+    owner = "hilaolu";
     repo = "cisTEM";
-    rev = "6c6eff601afc45f404bcd40ea2878619431a4789";
-    hash = "sha256-TXLpH5hcipyxFatUe9VQoNKFOzW8FpU7VuCVjTbq3IA=";
+    rev = "unbend";
+    hash = "sha256-a227Ohw1gzm98jiqkwjxyWCtMNbFV3L+3VMx+zPPUpk=";
   };
 
   nativeBuildInputs = [
