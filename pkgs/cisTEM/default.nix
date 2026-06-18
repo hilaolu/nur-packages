@@ -43,6 +43,7 @@ stdenv.mkDerivation rec {
   configureFlags = [
     "--with-fftw-dir=${fftwFloat}"
     "--with-wx-config=${wxGTK32}/bin/wx-config"
+    "--enable-openmp"
   ];
 
   enableParallelBuilding = true;

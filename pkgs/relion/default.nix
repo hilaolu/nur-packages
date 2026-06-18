@@ -22,6 +22,7 @@
 , openmpi
 , pbzip2
 , python3
+, vulkan-loader
 , xz
 , zlib
 , zstd
@@ -29,6 +30,9 @@
 
 let
   cudaStdenv = cudaPackages.backendStdenv;
+  runtimeLibraryPath = lib.makeLibraryPath [
+    vulkan-loader
+  ];
 in
 cudaStdenv.mkDerivation rec {
   pname = "relion";
@@ -65,6 +69,7 @@ cudaStdenv.mkDerivation rec {
     libtiff
     openmpi
     python3
+    vulkan-loader
     libx11
     libxext
     libxfixes
@@ -103,6 +108,7 @@ cudaStdenv.mkDerivation rec {
 
     wrapProgram $out/bin/relion \
       --prefix PATH : $out/bin:${lib.makeBinPath [ ghostscript openmpi pbzip2 xz zstd ]} \
+      --prefix LD_LIBRARY_PATH : ${runtimeLibraryPath} \
       --set RELION_MPIRUN ${openmpi}/bin/mpirun \
       --set RELION_QSUB_TEMPLATE $out/bin/relion_qsub.csh
   '';
