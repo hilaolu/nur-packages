@@ -26,6 +26,7 @@
 , libGL
 , python312
 , sqlite
+, wrapGAppsHook4
 , xorg
 }:
 
@@ -175,6 +176,7 @@ stdenv.mkDerivation rec {
     makeWrapper
     python
     swig
+    wrapGAppsHook4
   ];
 
   buildInputs = [
