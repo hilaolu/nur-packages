@@ -98,6 +98,7 @@ in
   foldit = pkgs.callPackage ./pkgs/foldit { };
   HMCL = pkgs.callPackage ./pkgs/HMCL { };
   cisTEM = pkgs.callPackage ./pkgs/cisTEM { };
+  coot = pkgs.callPackage ./pkgs/coot { };
   motioncor3 = pkgs.callPackage ./pkgs/motioncor3 { };
   office-cli = pkgs.callPackage ./pkgs/office-cli { };
   relion = pkgs.callPackage ./pkgs/relion { };
