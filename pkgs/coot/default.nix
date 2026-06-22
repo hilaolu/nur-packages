@@ -164,6 +164,12 @@ let
 
   rdkit = python311.pkgs.rdkit;
   pygobject3 = python311.pkgs.pygobject3;
+
+  ccp4MonomerLibrary = fetchurl {
+    name = "monomers-2023-01-02.tar.gz";
+    url = "http://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/monomers-2023-01-02-23:57:29.tar.gz";
+    sha256 = "1kqmgxm849zv9blnmxi5yqgk08j8z570gpcv7aymsvvvhf1c2g8s";
+  };
 in
 stdenv.mkDerivation rec {
   pname = "coot";
@@ -291,9 +297,14 @@ GLUT_LIBS=\"\$GLUT_LIBS -lGLU\""
   '';
 
   postInstall = ''
+    mkdir -p "$out/share/coot/lib/data"
+    tar xzf ${ccp4MonomerLibrary} -C "$out/share/coot/lib/data"
+
     for program in coot pyrogen; do
       if [ -x "$out/bin/$program" ]; then
         wrapProgram "$out/bin/$program" \
+          --set COOT_REFMAC_LIB_DIR "$out/share/coot/lib" \
+          --set CLIBD_MON "$out/share/coot/lib/data/monomers" \
           --prefix GI_TYPELIB_PATH : "$GI_TYPELIB_PATH" \
           --prefix PYTHONPATH : "$PYTHONPATH:$out/lib/python${python311.pythonVersion}/site-packages:$out/lib/python${python311.pythonVersion}/site-packages/coot"
       fi
