@@ -11,23 +11,23 @@
 , pkg-config
 , makeWrapper
 , swig
-, boost
+, boost178
 , cairo
 , coordgenlibs
 , curl
 , eigen
-, gemmi
-, glm
+, freeglut
+, gnome2
 , glib
+, goocanvas_2
 , gsl
-, gtk4
-, libepoxy
+, gtk2
 , libpng
 , librsvg
 , libGL
-, python312
+, libGLU
+, python311
 , sqlite
-, wrapGAppsHook4
 , xorg
 }:
 
@@ -149,30 +149,31 @@ let
     ];
   };
 
-  python = python312.withPackages (ps: with ps; [
+  python = python311.withPackages (ps: with ps; [
     numpy
     pillow
     pygobject3
     rdkit
+    setuptools
   ]);
 
-  boostWithPython = boost.override {
+  boostWithPython = boost178.override {
     enablePython = true;
-    python = python312;
+    python = python311;
   };
 
-  rdkit = python312.pkgs.rdkit;
-  pygobject3 = python312.pkgs.pygobject3;
+  rdkit = python311.pkgs.rdkit;
+  pygobject3 = python311.pkgs.pygobject3;
 in
 stdenv.mkDerivation rec {
   pname = "coot";
-  version = "1.1.20";
+  version = "0.9.8.95";
 
   src = fetchFromGitHub {
     owner = "pemsley";
     repo = "coot";
     rev = "Release-${version}";
-    hash = "sha256-i2WrJqsT/R0VIv2VK0C1Pz0seX8t/fuAm11AdNU099A=";
+    hash = "sha256-eNOHHRjXMTjl1rp+WbsCxqlCfCVBY1htpM2tPBcoV6w=";
   };
 
   nativeBuildInputs = [
@@ -182,7 +183,6 @@ stdenv.mkDerivation rec {
     makeWrapper
     python
     swig
-    wrapGAppsHook4
   ];
 
   buildInputs = [
@@ -194,14 +194,16 @@ stdenv.mkDerivation rec {
     curl
     eigen
     fftw2
-    gemmi
     glib
-    glm
+    freeglut
+    gnome2.gtkglext
+    gnome2.libgnomecanvas
+    goocanvas_2
     gsl
-    gtk4
+    gtk2
     libccp4
-    libepoxy
     libGL
+    libGLU
     libpng
     librsvg
     mmdb2
@@ -217,33 +219,84 @@ stdenv.mkDerivation rec {
     "--with-boost=${boostWithPython}"
     "--with-boost-libdir=${boostWithPython}/lib"
     "--with-fftw-prefix=${fftw2}"
-    "--with-gemmi=${gemmi}"
-    "--with-glm=${glm}"
     "--with-rdkit-prefix=${rdkit}"
     "--without-guile"
-    "--without-netcdf"
-    "--with-sound=false"
-    "--without-vte"
   ];
 
   enableParallelBuilding = true;
 
   postPatch = ''
     substituteInPlace configure.ac \
-      --replace-fail 'with_sound="withval"' 'with_sound="$withval"'
+      --replace-fail "AM_PATH_GTKGLEXT_1_0(1.0.0,,[exit 1])" \
+        "PKG_CHECK_MODULES([GTKGLEXT], [gtkglext-1.0 >= 1.0.0])"
 
     substituteInPlace configure.ac \
-      --replace-fail " -lRDKitRingDecomposerLib" ""
+      --replace-fail "AM_PATH_GLUT(, [echo You need the GLUT utility library; exit 1], AC_MSG_ERROR([Cannot find proper GLUT version]))" \
+        "PKG_CHECK_MODULES([GLUT], [glut])
+GLUT_LIBS=\"\$GLUT_LIBS -lGLU\""
 
-    substituteInPlace src/glade-callbacks.cc \
-      --replace-fail "g_warning(mess.c_str());" 'g_warning("%s", mess.c_str());'
+    substituteInPlace configure.ac \
+      --replace-fail " -lRDKitcoordgenlib" "" \
+      --replace-fail " -lRDKitmaeparser" ""
+
+    substituteInPlace configure.ac \
+      --replace-fail '-lboost_serialization -l$BOOST_PYTHON_LIB $PYTHON_LIBS' \
+        '-lboost_serialization -l$BOOST_PYTHON_LIB $PYTHON_LDFLAGS $PYTHON_EXTRA_LDFLAGS $PYTHON_EXTRA_LIBS'
+
+    substituteInPlace configure.ac \
+      --replace-fail '-std=c++11' '-std=c++14'
+
+    substituteInPlace macros/ax_python_devel.m4 \
+      --replace-fail "os.name <> 'nt'" "os.name != 'nt'"
+
+    substituteInPlace src/cc-interface.hh \
+      --replace-fail "#ifdef USE_PYTHON" "#if defined(USE_PYTHON) || defined(HAVE_PYTHON)"
+
+    substituteInPlace src/callbacks.c \
+      --replace-fail 'add_on_rama_choices("");' 'add_on_rama_choices();'
+
+    substituteInPlace src/c-interface-validate.cc \
+      --replace-fail '#include "coot-utils/peak-search.hh"' '#include "coot-utils/peak-search.hh"
+#include "coot-utils/atom-overlaps.hh"'
+
+    substituteInPlace src/nsv.cc \
+      --replace-fail '   current_highlight_residue = 0;' '   #ifdef HAVE_GOOCANVAS
+   current_highlight_residue = 0;
+   #endif' \
+      --replace-fail 'GCALLBACK(rect_event)' 'G_CALLBACK(rect_event)' \
+      --replace-fail 'exptl::nsv::spec_and_object spec_obj_p = static_cast<exptl::nsv::spec_and_object *>(data);' \
+        'exptl::nsv::spec_and_object *spec_obj_p = static_cast<exptl::nsv::spec_and_object *>(data);'
+
+    substituteInPlace src/dynarama-main.cc \
+      --replace-fail '#endif
+
+#ifdef HAVE_GOOCANVAS' '#endif
+
+#include <iostream>
+
+#ifdef HAVE_GOOCANVAS'
+
+    substituteInPlace coot-utils/Makefile.am \
+      --replace-fail 'mmrrcc_LDADD = ./libcoot-map-utils.la \
+	./libcoot-coord-utils.la  \
+	$(top_builddir)/geometry/libcoot-geometry.la \
+	$(top_builddir)/utils/libcoot-utils.la \
+	$(top_builddir)/lidia-core/libcoot-lidia-core.la \
+	$(CLIPPER_LIBS)' 'mmrrcc_LDADD = ./libcoot-map-utils.la \
+	./libcoot-coord-utils.la  \
+	$(top_builddir)/geometry/libcoot-geometry.la \
+	$(top_builddir)/utils/libcoot-utils.la \
+	$(top_builddir)/lidia-core/libcoot-lidia-core.la \
+	$(CLIPPER_LIBS) $(RDKIT_LIBS) $(BOOST_LDFLAGS) $(L_BOOST_PYTHON) $(PYTHON_LIBS)'
   '';
 
   postInstall = ''
     for program in coot pyrogen; do
-      wrapProgram "$out/bin/$program" \
-        --prefix GI_TYPELIB_PATH : "$GI_TYPELIB_PATH" \
-        --prefix PYTHONPATH : "$PYTHONPATH:$out/lib/python${python312.pythonVersion}/site-packages:$out/lib/python${python312.pythonVersion}/site-packages/coot"
+      if [ -x "$out/bin/$program" ]; then
+        wrapProgram "$out/bin/$program" \
+          --prefix GI_TYPELIB_PATH : "$GI_TYPELIB_PATH" \
+          --prefix PYTHONPATH : "$PYTHONPATH:$out/lib/python${python311.pythonVersion}/site-packages:$out/lib/python${python311.pythonVersion}/site-packages/coot"
+      fi
     done
   '';
 
