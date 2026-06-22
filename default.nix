@@ -99,6 +99,7 @@ in
   HMCL = pkgs.callPackage ./pkgs/HMCL { };
   cisTEM = pkgs.callPackage ./pkgs/cisTEM { };
   coot = pkgs.callPackage ./pkgs/coot { };
+  coot-bin = pkgs.callPackage ./pkgs/coot-bin { };
   motioncor3 = pkgs.callPackage ./pkgs/motioncor3 { };
   office-cli = pkgs.callPackage ./pkgs/office-cli { };
   phenix = pkgs.callPackage ./pkgs/phenix { };

@@ -10,7 +10,14 @@
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
       nixpkgsFor = system: import nixpkgs {
         inherit system;
-        config.allowUnfree = true;
+        config = {
+          allowUnfree = true;
+          permittedInsecurePackages = [
+            "openssl-1.1.1w"
+            "python-2.7.18.12"
+            "python-2.7.18.12-env"
+          ];
+        };
       };
     in
     {
