@@ -4,6 +4,7 @@
 , fetchurl
 , autoreconfHook
 , bc
+, blas
 , cmake
 , gfortran
 , m4
@@ -80,6 +81,11 @@ let
     buildInputs = [
       mmdb2
     ];
+
+    postPatch = ''
+      substituteInPlace ccp4/library_utils.c \
+        --replace-fail "  int putenv ();" "  int putenv (char *);"
+    '';
 
     cmakeFlags = [
       "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
@@ -160,13 +166,13 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "coot";
-  version = "1.3.1";
+  version = "1.1.20";
 
   src = fetchFromGitHub {
     owner = "pemsley";
     repo = "coot";
     rev = "Release-${version}";
-    hash = "sha256-4G9v3QR8JFEgoZTGy2I/LhLi12nJYNo+ZEjYnEGXKkU=";
+    hash = "sha256-i2WrJqsT/R0VIv2VK0C1Pz0seX8t/fuAm11AdNU099A=";
   };
 
   nativeBuildInputs = [
@@ -181,6 +187,7 @@ stdenv.mkDerivation rec {
 
   buildInputs = [
     boostWithPython
+    blas
     cairo
     coordgenlibs
     ccp4Clipper
@@ -223,7 +230,13 @@ stdenv.mkDerivation rec {
 
   postPatch = ''
     substituteInPlace configure.ac \
+      --replace-fail 'with_sound="withval"' 'with_sound="$withval"'
+
+    substituteInPlace configure.ac \
       --replace-fail " -lRDKitRingDecomposerLib" ""
+
+    substituteInPlace src/glade-callbacks.cc \
+      --replace-fail "g_warning(mess.c_str());" 'g_warning("%s", mess.c_str());'
   '';
 
   postInstall = ''

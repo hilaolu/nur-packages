@@ -101,6 +101,7 @@ in
   coot = pkgs.callPackage ./pkgs/coot { };
   motioncor3 = pkgs.callPackage ./pkgs/motioncor3 { };
   office-cli = pkgs.callPackage ./pkgs/office-cli { };
+  # phenix = pkgs.callPackage ./pkgs/phenix { };
   relion = pkgs.callPackage ./pkgs/relion { };
   ucsf-chimerax = pkgs.callPackage ./pkgs/ucsf-chimerax { };
   zulu = pkgs.callPackage ./pkgs/zulu { };
