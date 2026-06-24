@@ -109,6 +109,21 @@ stdenvNoCC.mkDerivation rec {
     export HOME="$TMPDIR/home"
     mkdir -p "$HOME"
     ${bash}/bin/bash installer.sh -b -s -p "$out/opt/phenix" -m
+    patchelf --set-interpreter "$(cat ${stdenv.cc}/nix-support/dynamic-linker)" \
+      --set-rpath "${lib.makeLibraryPath runtimeLibs}:$out/opt/phenix/lib" \
+      "$out/opt/phenix/bin/python3.9"
+    LD_LIBRARY_PATH="${lib.makeLibraryPath runtimeLibs}:$out/opt/phenix/lib" \
+      "$out/opt/phenix/bin/python3.9" \
+      "$out/opt/phenix/lib/python3.9/site-packages/mmtbx/command_line/rebuild_rotarama_cache.py"
+    LD_LIBRARY_PATH="${lib.makeLibraryPath runtimeLibs}:$out/opt/phenix/lib" \
+      "$out/opt/phenix/bin/python3.9" \
+      "$out/opt/phenix/lib/python3.9/site-packages/mmtbx/command_line/rebuild_cablam_cache.py"
+    touch "$out/opt/phenix/lib/python3.9/site-packages/chem_data/rotarama_data/NO_UPDATE"
+
+    macro_cycle_real_space_py="$out/opt/phenix/lib/python3.9/site-packages/phenix/refinement/macro_cycle_real_space.py"
+    substituteInPlace "$macro_cycle_real_space_py" \
+      --replace-fail 'if(self.params.rotamers.restraints.sigma is Auto):' \
+                     'if(self.params.rotamers.restraints.sigma is Auto or self.params.rotamers.restraints.sigma is None):'
 
     tutorials_py="$out/opt/phenix/lib/python3.9/site-packages/wxGUI2/Tutorials.py"
     substituteInPlace "$tutorials_py" \
@@ -145,6 +160,16 @@ def copy_to_project_dir(source_file, example_dir, project_dir):
     done
 
     runHook postInstall
+  '';
+
+  doInstallCheck = true;
+  installCheckPhase = ''
+    runHook preInstallCheck
+
+    "$out/bin/phenix.python" -c "from mmtbx.rotamer.rotamer_eval import RotamerEval; from mmtbx.validation import cablam; RotamerEval(); cablam.fetch_peptide_expectations(); cablam.fetch_ca_expectations(); cablam.fetch_motif_contours()"
+    "$out/bin/phenix.python" -c "from pathlib import Path; p=Path('$out/opt/phenix/lib/python3.9/site-packages/phenix/refinement/macro_cycle_real_space.py'); assert 'sigma is Auto or self.params.rotamers.restraints.sigma is None' in p.read_text()"
+
+    runHook postInstallCheck
   '';
 
   meta = {
