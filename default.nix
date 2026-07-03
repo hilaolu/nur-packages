@@ -100,6 +100,7 @@ in
   cisTEM = pkgs.callPackage ./pkgs/cisTEM { };
   coot = pkgs.callPackage ./pkgs/coot { };
   coot-bin = pkgs.callPackage ./pkgs/coot-bin { };
+  itk-snap = pkgs.callPackage ./pkgs/itk-snap { };
   motioncor3 = pkgs.callPackage ./pkgs/motioncor3 { };
   office-cli = pkgs.callPackage ./pkgs/office-cli { };
   phenix = pkgs.callPackage ./pkgs/phenix { };
