@@ -42,6 +42,10 @@ let
       gwaslab = self.callPackage ./pkgs/gwaslab { };
       harmonypy = self.callPackage ./pkgs/harmonypy { };
       hatch-docstring-description = self.callPackage ./pkgs/hatch-docstring-description { };
+      imgviz = self.callPackage ./pkgs/imgviz { };
+      labelme = self.callPackage ./pkgs/labelme {
+        wrapQtAppsHook = pkgs.libsForQt5.wrapQtAppsHook;
+      };
       liftover = self.callPackage ./pkgs/liftover { };
       louvain = self.callPackage ./pkgs/louvain {
         igraph = pkgs.igraph;
@@ -121,6 +125,8 @@ in
   gwaslab = python3Packages.gwaslab;
   harmonypy = python3Packages.harmonypy;
   hatch-docstring-description = python3Packages.hatch-docstring-description;
+  imgviz = python3Packages.imgviz;
+  labelme = python3Packages.labelme;
   liftover = python3Packages.liftover;
   louvain = python3Packages.louvain;
   memoized-property = python3Packages.memoized-property;
