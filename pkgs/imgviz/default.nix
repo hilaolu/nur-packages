@@ -5,22 +5,21 @@
   hatchling,
   hatch-vcs,
   hatch-fancy-pypi-readme,
-  matplotlib,
+  cmap,
   numpy,
   pillow,
-  pyyaml,
 }:
 
 buildPythonPackage rec {
   pname = "imgviz";
-  version = "1.7.6";
+  version = "2.1.0";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "wkentaro";
     repo = "imgviz";
     rev = "v${version}";
-    hash = "sha256-y77ML7kswFr1LuxlP5HRmMeoUBqm7OMYWwsOiLfl9nw=";
+    hash = "sha256-qPSUcxf3/n7LizDAkotg1nhBdxQY7bnWVuMPj8P2z0o=";
   };
 
   build-system = [
@@ -30,10 +29,9 @@ buildPythonPackage rec {
   ];
 
   propagatedBuildInputs = [
-    matplotlib
+    cmap
     numpy
     pillow
-    pyyaml
   ];
 
   pythonImportsCheck = [ "imgviz" ];

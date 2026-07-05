@@ -2,36 +2,40 @@
   lib,
   buildPythonPackage,
   fetchFromGitHub,
-  setuptools,
+  hatchling,
+  hatch-vcs,
+  hatch-fancy-pypi-readme,
   wrapQtAppsHook,
-  gdown,
   imgviz,
+  loguru,
   matplotlib,
   natsort,
   numpy,
-  onnxruntime,
+  osam,
   pillow,
   pyqt5,
   pyyaml,
-  qtpy,
   scikit-image,
-  termcolor,
+  scipy,
+  tifffile,
 }:
 
 buildPythonPackage rec {
   pname = "labelme";
-  version = "5.5.0";
-  format = "setuptools";
+  version = "6.3.1";
+  pyproject = true;
 
   src = fetchFromGitHub {
     owner = "wkentaro";
     repo = "labelme";
     rev = "v${version}";
-    hash = "sha256-W5oeFDpG7sTZvwBu9UJAHzFDLUqVwKXsYH49Cir/KF8=";
+    hash = "sha256-Gv9nE8sLBIJiu065kVgiInY3ByfvkudLV3D6Umvhns0=";
   };
 
   build-system = [
-    setuptools
+    hatchling
+    hatch-vcs
+    hatch-fancy-pypi-readme
   ];
 
   nativeBuildInputs = [
@@ -39,18 +43,22 @@ buildPythonPackage rec {
   ];
 
   propagatedBuildInputs = [
-    gdown
     imgviz
+    loguru
     matplotlib
     natsort
     numpy
-    onnxruntime
+    osam
     pillow
     pyqt5
     pyyaml
-    qtpy
     scikit-image
-    termcolor
+    scipy
+    tifffile
+  ];
+
+  pythonRemoveDeps = [
+    "pyqt5-qt5"
   ];
 
   dontWrapQtApps = true;

@@ -34,6 +34,7 @@ let
       bioblend = self.callPackage ./pkgs/bioblend { };
       biothings_client = self.callPackage ./pkgs/biothings_client { };
       buckaroo = self.callPackage ./pkgs/buckaroo { };
+      cmap = self.callPackage ./pkgs/cmap { };
       datacache = self.callPackage ./pkgs/datacache { };
       demuxEM = self.callPackage ./pkgs/demuxEM { };
       episcanpy = self.callPackage ./pkgs/episcanpy { };
@@ -56,6 +57,7 @@ let
       memoized-property = self.callPackage ./pkgs/memoized-property { };
       mudata = self.callPackage ./pkgs/mudata { };
       mygene = self.callPackage ./pkgs/mygene { };
+      osam = self.callPackage ./pkgs/osam { };
       pegasusio = self.callPackage ./pkgs/pegasusio { };
       pegasuspy = self.callPackage ./pkgs/pegasuspy { };
       pipe-operator = self.callPackage ./pkgs/pipe-operator { };
@@ -117,6 +119,7 @@ in
   bioblend = python3Packages.bioblend;
   biothings_client = python3Packages.biothings_client;
   buckaroo = python3Packages.buckaroo;
+  cmap = python3Packages.cmap;
   datacache = python3Packages.datacache;
   demuxEM = python3Packages.demuxEM;
   episcanpy = python3Packages.episcanpy;
@@ -132,6 +135,7 @@ in
   memoized-property = python3Packages.memoized-property;
   mudata = python3Packages.mudata;
   mygene = python3Packages.mygene;
+  osam = python3Packages.osam;
   pegasusio = python3Packages.pegasusio;
   pegasuspy = python3Packages.pegasuspy;
   pipe-operator = python3Packages.pipe-operator;
