@@ -40,13 +40,13 @@ let
 in
 cudaStdenv.mkDerivation rec {
   pname = "relion";
-  version = "ver5.1";
+  version = "ver5.1.1";
 
   src = fetchFromGitHub {
     owner = "hilaolu";
     repo = "relion";
     rev = version;
-    hash = "sha256-Bm0ZgXxv803kwUNXbMEXCjGrPlmkmXdvBydyt6VF2Gk=";
+    hash = "sha256-+NXSOQIl2XwUSiIaeUn6QMTY6O7ZUuMx2NnkfQ6hBas=";
   };
 
   nativeBuildInputs = [
