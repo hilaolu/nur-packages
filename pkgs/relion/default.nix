@@ -82,6 +82,10 @@ cudaStdenv.mkDerivation rec {
     zlib
   ];
 
+  propagatedUserEnvPkgs = [
+    openmpi
+  ];
+
   cmakeFlags = [
     "-DCUDA=ON"
     "-DCMAKE_CUDA_HOST_COMPILER=${cudaStdenv.cc}/bin/cc"
