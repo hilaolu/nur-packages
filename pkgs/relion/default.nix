@@ -33,6 +33,7 @@ let
   pythonWithTk = python3.withPackages (ps: [
     ps.tkinter
   ]);
+  relionScriptDirectory = "$out/share/relion/scripts";
   runtimeLibraryPath = lib.makeLibraryPath [
     vulkan-loader
   ];
@@ -109,16 +110,26 @@ cudaStdenv.mkDerivation rec {
       --replace-fail "mpiexec -mca orte_forward_job_control 1 -n XXXmpinodesXXX" \
                      "${openmpi}/bin/mpirun -n XXXmpinodesXXX"
 
+    install -D -d ${relionScriptDirectory}
+    cp -R ${src}/scripts/Schemes ${relionScriptDirectory}/
+
     wrapProgram $out/bin/relion \
       --prefix PATH : $out/bin:${lib.makeBinPath [ ghostscript openmpi pbzip2 xz zstd ]} \
       --prefix LD_LIBRARY_PATH : ${runtimeLibraryPath} \
       --set RELION_MPIRUN ${openmpi}/bin/mpirun \
-      --set RELION_QSUB_TEMPLATE $out/bin/relion_qsub.csh
+      --set RELION_QSUB_TEMPLATE $out/bin/relion_qsub.csh \
+      --set RELION_SCRIPT_DIRECTORY ${relionScriptDirectory}
 
     if [ -x "$out/bin/relion_schemegui" ]; then
       PATH=${pythonWithTk}/bin:$PATH patchShebangs --host "$out/bin/relion_schemegui"
       wrapProgram $out/bin/relion_schemegui \
-        --prefix PATH : ${lib.makeBinPath [ pythonWithTk ]}
+        --prefix PATH : ${lib.makeBinPath [ pythonWithTk ]} \
+        --set RELION_SCRIPT_DIRECTORY ${relionScriptDirectory}
+    fi
+
+    if [ -x "$out/bin/relion_it.py" ]; then
+      wrapProgram $out/bin/relion_it.py \
+        --set RELION_SCRIPT_DIRECTORY ${relionScriptDirectory}
     fi
   '';
 
@@ -131,6 +142,8 @@ cudaStdenv.mkDerivation rec {
 
     if [ -x "$out/bin/relion_schemegui" ]; then
       grep -F "${pythonWithTk}/bin/python3" "$out/bin/.relion_schemegui-wrapped"
+      grep -F "RELION_SCRIPT_DIRECTORY" "$out/bin/relion_schemegui"
+      test -f "${relionScriptDirectory}/Schemes/amyprep/scheme.star"
     fi
 
     runHook postInstallCheck
