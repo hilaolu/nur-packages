@@ -116,6 +116,8 @@ cudaStdenv.mkDerivation rec {
 
     install -D -d ${relionScriptDirectory}
     cp -R ${src}/scripts/Schemes ${relionScriptDirectory}/
+    ln -s ${openmpi}/bin/mpirun $out/bin/mpirun
+    ln -s ${openmpi}/bin/mpiexec $out/bin/mpiexec
 
     wrapProgram $out/bin/relion \
       --prefix PATH : $out/bin:${lib.makeBinPath [ ghostscript openmpi pbzip2 xz zstd ]} \
