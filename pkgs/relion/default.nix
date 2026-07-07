@@ -30,6 +30,9 @@
 
 let
   cudaStdenv = cudaPackages.backendStdenv;
+  pythonWithTk = python3.withPackages (ps: [
+    ps.tkinter
+  ]);
   runtimeLibraryPath = lib.makeLibraryPath [
     vulkan-loader
   ];
@@ -68,7 +71,7 @@ cudaStdenv.mkDerivation rec {
     libpng
     libtiff
     openmpi
-    python3
+    pythonWithTk
     vulkan-loader
     libx11
     libxext
@@ -86,7 +89,7 @@ cudaStdenv.mkDerivation rec {
     "-DFORCE_OWN_FFTW=OFF"
     "-DFORCE_OWN_FLTK=OFF"
     "-DGUI=ON"
-    "-DPYTHON_EXE_PATH=${python3}/bin/python3"
+    "-DPYTHON_EXE_PATH=${pythonWithTk}/bin/python3"
   ];
 
   postPatch = ''
@@ -111,6 +114,26 @@ cudaStdenv.mkDerivation rec {
       --prefix LD_LIBRARY_PATH : ${runtimeLibraryPath} \
       --set RELION_MPIRUN ${openmpi}/bin/mpirun \
       --set RELION_QSUB_TEMPLATE $out/bin/relion_qsub.csh
+
+    if [ -x "$out/bin/relion_schemegui" ]; then
+      PATH=${pythonWithTk}/bin:$PATH patchShebangs --host "$out/bin/relion_schemegui"
+      wrapProgram $out/bin/relion_schemegui \
+        --prefix PATH : ${lib.makeBinPath [ pythonWithTk ]}
+    fi
+  '';
+
+  doInstallCheck = true;
+
+  installCheckPhase = ''
+    runHook preInstallCheck
+
+    ${pythonWithTk}/bin/python3 -c "import tkinter; import _tkinter"
+
+    if [ -x "$out/bin/relion_schemegui" ]; then
+      grep -F "${pythonWithTk}/bin/python3" "$out/bin/.relion_schemegui-wrapped"
+    fi
+
+    runHook postInstallCheck
   '';
 
   meta = with lib; {
