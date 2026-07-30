@@ -1,0 +1,19 @@
+diff --git a/CGenStarFile.cpp b/CGenStarFile.cpp
+index 5eb47ef..0423071 100755
+--- a/CGenStarFile.cpp
++++ b/CGenStarFile.cpp
+@@ -148,11 +148,11 @@ void CGenStarFile::SetHotPixels
+ 	int iSizeX = bPadded ? (piMapSize[0] / 2 - 1) * 2 : piMapSize[0];
+ 	for(int y=0; y<piMapSize[1]; y++)
+ 	{	int i = y * piMapSize[0];
+-		int iY = piMapSize[1] - y; // Daniel
++		int iY = piMapSize[1] - 1 - y; // Daniel
+ 		for(int x=0; x<iSizeX; x++)
+ 		{	if(pucBadMap[i+x] == 0) continue;
+-			fprintf(m_pFile, "%13.6f  %13.6f\n", 
+-			   x + 1.0f, iY);
++			fprintf(m_pFile, "%13d  %13d\n", 
++			   x, iY);
+ 		}
+ 	}
+ 	fprintf(m_pFile, "\n\n");

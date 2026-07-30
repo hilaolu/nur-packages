@@ -19,6 +19,10 @@ stdenv.mkDerivation rec {
     hash = "sha256-D6VSCBNgp/WMSj96pFDh9tX9Zslec0JNzmrA4R+o2DU=";
   };
 
+  patches = [
+    ./fix-hot-pixel-coordinate-output.patch
+  ];
+
   nativeBuildInputs = [
     cudaPackages.cuda_nvcc
     cudaPackages.setupCudaHook
