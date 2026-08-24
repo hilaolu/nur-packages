@@ -20,7 +20,7 @@ stdenv.mkDerivation rec {
   };
 
   patches = [
-    ./fix-hot-pixel-coordinate-output.patch
+    # ./fix-hot-pixel-coordinate-output.patch
   ];
 
   nativeBuildInputs = [
@@ -49,9 +49,11 @@ stdenv.mkDerivation rec {
     # Fix the rule for .cu files to include CUDAINC
     substituteInPlace makefile11 \
       --replace-fail "\$(CUFLAG) -I\$(PRJINC)" "\$(CUFLAG) -I\$(PRJINC) \$(CUDAINC)" \
+      --replace-fail "-I\$(PRJINC) -I\$(CUDAINC)" "-I\$(PRJINC) \$(CUDAINC)" \
       --replace-fail "-I\$(CONDA)/include" "" \
       --replace-fail "-L\$(CONDA)/lib" "" \
       --replace-fail "-L/usr/lib64" "" \
+      --replace-fail "-lnvToolsExt" "" \
       --replace-fail "@\$(NVCC)" "\$(NVCC)" \
       --replace-fail "NVCC = \$(CUDAHOME)/bin/nvcc" "NVCC = nvcc" \
       --replace-fail "-std=c++11" "-std=c++17"
@@ -61,6 +63,7 @@ stdenv.mkDerivation rec {
       --replace-fail "CC = g++" "CC ?= g++" \
       --replace-fail "-std=c++11" "-std=c++17"
     substituteInPlace LibSrc/Util/makefile \
+      --replace-fail "CFLAG = -c -g -pthread -m64" "CFLAG = -c -g -pthread -m64 -Wall -Wformat" \
       --replace-fail "CC = g++" "CC ?= g++" \
       --replace-fail "-std=c++11" "-std=c++17"
       
@@ -85,6 +88,7 @@ stdenv.mkDerivation rec {
         CUDAINC="$CUDAINC $flag"
       fi
     done
+    CUDAINC="$CUDAINC -I${cudaPackages.cuda_nvtx.include}/include/nvtx3"
     # Handle -isystem
     CUDAINC="$CUDAINC $(echo $NIX_CFLAGS_COMPILE | sed 's/-isystem \([^ ]*\)/-I\1/g' | tr ' ' '\n' | grep '^-I' | tr '\n' ' ')"
 
