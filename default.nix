@@ -108,6 +108,7 @@ in
   coot-bin = pkgs.callPackage ./pkgs/coot-bin { };
   itk-snap = pkgs.callPackage ./pkgs/itk-snap { };
   motioncor3 = pkgs.callPackage ./pkgs/motioncor3 { };
+  modeller = pkgs.callPackage ./pkgs/modeller { };
   office-cli = pkgs.callPackage ./pkgs/office-cli { };
   phenix = pkgs.callPackage ./pkgs/phenix { };
   relion = pkgs.callPackage ./pkgs/relion { };
