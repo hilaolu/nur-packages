@@ -3,6 +3,7 @@
   stdenv,
   fetchurl,
   autoPatchelfHook,
+  makeWrapper,
   glib,
   python3,
   zlib,
@@ -29,6 +30,7 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [
     autoPatchelfHook
+    makeWrapper
   ];
 
   buildInputs = [
@@ -62,6 +64,13 @@ stdenv.mkDerivation rec {
       bin/modpy.sh.in > "$out/bin/modpy.sh"
     chmod +x "$out/bin/mod${version}" "$out/bin/modpy.sh"
 
+    # The upstream mod10.8 executable embeds Python 2.3 and expects a system
+    # Python 2.3 standard library, which is not available on modern NixOS.
+    # Provide the conventional `modeller` command through the supported
+    # Python interface instead.
+    makeWrapper "$out/bin/modpy.sh" "$out/bin/modeller" \
+      --add-flags "${python3}/bin/python3"
+
     # Read the license at runtime so that it never becomes part of the Nix
     # store. Users can obtain a key from the academic license server and set
     # it with KEY_MODELLER before invoking Modeller.
@@ -81,6 +90,7 @@ stdenv.mkDerivation rec {
 
     test -x "$out/bin/mod${version}"
     test -x "$out/bin/modpy.sh"
+    test -x "$out/bin/modeller"
     "$out/bin/modpy.sh" ${python3}/bin/python3 -c \
       "import sys; sys.path.insert(0, '$out/lib/${executableType}/python3.3'); import _modeller"
     grep -F "install_dir = r'$out'" "$out/modlib/modeller/config.py"
@@ -99,7 +109,7 @@ stdenv.mkDerivation rec {
     homepage = "https://salilab.org/modeller/";
     license = lib.licenses.unfree;
     sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
-    mainProgram = "mod${version}";
+    mainProgram = "modeller";
     platforms = [
       "aarch64-linux"
       "armv7l-linux"
