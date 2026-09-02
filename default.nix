@@ -106,6 +106,7 @@ in
   cisTEM = pkgs.callPackage ./pkgs/cisTEM { };
   coot = pkgs.callPackage ./pkgs/coot { };
   coot-bin = pkgs.callPackage ./pkgs/coot-bin { };
+  imod = pkgs.callPackage ./pkgs/imod { };
   itk-snap = pkgs.callPackage ./pkgs/itk-snap { };
   motioncor3 = pkgs.callPackage ./pkgs/motioncor3 { };
   modeller = pkgs.callPackage ./pkgs/modeller { };
@@ -129,6 +130,9 @@ in
   gwaslab = python3Packages.gwaslab;
   harmonypy = python3Packages.harmonypy;
   hatch-docstring-description = python3Packages.hatch-docstring-description;
+  headroom-ai = pkgs.python313Packages.callPackage ./pkgs/headroom-ai {
+    ast-grep = pkgs.ast-grep;
+  };
   imgviz = python3Packages.imgviz;
   labelme = python3Packages.labelme;
   liftover = python3Packages.liftover;
